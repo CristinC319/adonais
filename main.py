@@ -10,6 +10,7 @@ st.markdown(
     "<h1 style='text-align: left;font:Clarkson;'>Adonais</h1>",
     unsafe_allow_html=True)
 
+#~/anaconda3/envs/standard/bin/streamlit run main.py
 # Langchain ---------------------------------------------
 
 chain = load_chain()
@@ -66,10 +67,12 @@ if submit_button and user_input:
 
     # run topic chain on the query & response
     topic_results = topic_chain.run({'query': user_input, 'response': output})
-
+    topic_results = topic_results.split(',')
+    
     # (1) get list (set) of topics from state 
-    topic_list = get_topics()
-
+    topic_list = get_topics(topic_results)
+    print(topic_list)
+    
     # (2) get serp results
     ad_list = get_ads(topic_list)
 
@@ -104,18 +107,18 @@ if 'ad1' not in st.session_state:
     st.session_state.ad5 = "ex1.png"
 
 
-st.sidebar.header("Ad1")
+#st.sidebar.header("Ad1")
 st.sidebar.image(st.session_state.ad1, width=200)
-st.sidebar.write("desc")
+#st.sidebar.write("desc")
 
-st.sidebar.header("Ad2")
+#st.sidebar.header("Ad2")
 st.sidebar.image(st.session_state.ad2, width=200)
 
-st.sidebar.header("Ad3")
+#st.sidebar.header("Ad3")
 st.sidebar.image(st.session_state.ad3, width=200)
 
-st.sidebar.header("Ad4")
+#st.sidebar.header("Ad4")
 st.sidebar.image(st.session_state.ad4, width=200)
 
-st.sidebar.header("Ad5")
+#st.sidebar.header("Ad5")
 st.sidebar.image(st.session_state.ad5, width=200)
