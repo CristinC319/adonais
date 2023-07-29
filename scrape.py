@@ -31,8 +31,8 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     
     ad = results["shopping_results"][0]
     out = [ad["title"], ad["link"], ad["thumbnail"]]
-    for x in out:
-        print(x)
+    # for x in out:
+        # print(x)
 
     return out
 
@@ -48,4 +48,4 @@ def get_ads(topic_list):
 
     return ads
 
-scrape_topic()
+# scrape_topic()
