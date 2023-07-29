@@ -1,6 +1,8 @@
-streamlit
 
+streamlit
 streamlit-chat
+
 langchain
+open-ai
 
 google-search-results

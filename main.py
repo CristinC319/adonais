@@ -27,6 +27,9 @@ if 'past' not in st.session_state:
 if 'generated' not in st.session_state:
     st.session_state['generated'] = ["Hello! Ask me anything."]
 
+# if 'ads' not in st.session_state:
+    # st.session_state['generated'] = ["Hello! Ask me anything."]
+
 response_container = st.container() # chat history container
 container = st.container() # user history container
 
@@ -79,6 +82,7 @@ if submit_button and user_input:
     ad_list = get_ads(topic_list)
 
     # (3) add adds to state - same with topics / how to deal with existing ads and what to kick out 
+    # st.session_state[]
 
 
     # (4) IF WE HAVE TIME (LLM again - why is this ad relevant to the chat/ user)

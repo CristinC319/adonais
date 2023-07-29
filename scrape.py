@@ -5,6 +5,7 @@ Web scraper
 from serpapi import GoogleSearch
 import json 
 
+GoogleSearch.SERP_API_KEY = "59263e9285646cb5082978e5ec0c18518125436cb81f8e2e37a2855a1ef067f5"
 
 def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"):
     '''
@@ -48,4 +49,4 @@ def get_ads(topic_list):
 
     return ads
 
-# scrape_topic()
+scrape_topic()
