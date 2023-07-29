@@ -21,6 +21,7 @@ def load_topic_chain():
     post_llm_prompt = """You are an assistant to an ad publisher. 
     Given a user query, and an initial response, use the initial response to generate no more than 3 searchable
     queries that are likely to return sponsored results. Your answer should not contain anything but the queries.
+    the format for the response is query 1,query 2,query 3 with no extra formatting
     User query: {query}
     Initial response: {response}"""
 
@@ -29,3 +30,9 @@ def load_topic_chain():
     topic_chain = LLMChain(llm=chat_llm, prompt=post_llm_prompttemplate)
 
     return topic_chain
+
+#topic_chain = load_topic_chain()
+#res = topic_chain.run({'query': 'Im traveling to san francisco and I need a daily itinerary', 'response': "restaurants, musuems"})
+#res_list = res.split(',')
+#print(res_list)
+
