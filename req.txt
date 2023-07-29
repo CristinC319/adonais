@@ -1,8 +1,6 @@
 streamlit
-python=3.11.3
+
 streamlit-chat
 langchain
-
-
 
 google-search-results

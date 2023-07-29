@@ -67,6 +67,8 @@ if submit_button and user_input:
     # run topic chain on the query & response
     topic_results = topic_chain.run({'query': user_input, 'response': output})
 
+    ### OPTIONAL: get location name (default San Francisco rn) as well for scraping
+
     # (1) get list (set) of topics from state 
     topic_list = get_topics()
 
