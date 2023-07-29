@@ -4,10 +4,6 @@ from streamlit_chat import message
 from chains import load_chain, load_topic_chain
 from scrape import get_ads
 
-'''
-Streamlit main (streamlit run main.py)
-'''
-
 st.set_page_config(page_icon="💬", page_title="Adonais", initial_sidebar_state="expanded")
 
 st.markdown(
@@ -77,7 +73,10 @@ if submit_button and user_input:
     # (2) get serp results
     ad_list = get_ads(topic_list)
 
-    # add adds to state - same with topics / how to deal with existing ads and what to kick out 
+    # (3) add adds to state - same with topics / how to deal with existing ads and what to kick out 
+
+
+    # (4) IF WE HAVE TIME (LLM again - why is this ad relevant to the chat/ user)
 
 
     # Update chat states
