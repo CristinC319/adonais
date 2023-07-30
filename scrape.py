@@ -1,11 +1,5 @@
-
-'''
-Web scraper
-'''
-# from serpapi import GoogleSearch 
 import requests
 
-GoogleSearch.SERP_API_KEY = "59263e9285646cb5082978e5ec0c18518125436cb81f8e2e37a2855a1ef067f5"
 DESIRED_RESULT = "shopping_results"
 SHOPPING_RESULTS_KEY = ["title", "link", "thumbnail"]
 

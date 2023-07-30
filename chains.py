@@ -5,13 +5,7 @@ from langchain import OpenAI, LLMChain, PromptTemplate
 from langchain.chat_models import ChatAnthropic
 import os
 
-'''
-Load Langchain Chains
-'''
-
-os.environ["OPENAI_API_KEY"]="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"
 os.environ['ANTHROPIC_API_KEY']='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'
-
 
 def load_chain():
     llm = ChatAnthropic()

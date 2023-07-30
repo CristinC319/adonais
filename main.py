@@ -61,27 +61,6 @@ with container:
 
 # Main ---------------------------------------------
 
-if "topics" not in st.session_state:
-    st.session_state.topics = []
-
-
-def get_topics(topic_results):
-    """'
-    tasks:
-    * how many topics to keep at a time
-    * set (all unique)
-    * what format do the topics come from the LLM - if it sucks then don't change the state
-    """
-
-    topics = st.session_state.topics
-
-    for top in topic_results:
-        topics.append(top)
-
-    st.session_state.topics = topics[-5:]
-
-    return topics
-
 if submit_button and user_input:
     # Response from LLM
     output = chain.run(input=user_input)
@@ -90,22 +69,13 @@ if submit_button and user_input:
     topic_results = topic_chain.run({"query": user_input, "response": output})
     topic_results = topic_results.split(",")
 
-    ### OPTIONAL: get location name (default San Francisco rn) as well for scraping
-
-    # (1) get list (set) of topics from state
-    topic_list = get_topics(topic_results)
-    print(topic_list)
-
-    # (4) IF WE HAVE TIME (LLM again - why is this ad relevant to the chat/ user)
-
     # Update chat states
     st.session_state["history"].append((user_input, output))
     st.session_state["past"].append(user_input)
     st.session_state["generated"].append(output)
 
     # serp
-    ad_list = get_ads(topic_list)
-
+    ad_list = get_ads(topic_results)
     st.session_state['ads'] = ad_list.append(st.session_state['ads'])
 
 # displaying history
