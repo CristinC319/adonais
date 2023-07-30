@@ -3,13 +3,10 @@ from streamlit_chat import message
 
 from chains import load_chain, load_topic_chain, call_anthropic_api
 from scrape import get_ads
+#from trubrics.integrations.streamlit import FeedbackCollector
 
 st.set_page_config(
-    page_icon="💬", page_title="Adonais", initial_sidebar_state="expanded"
-)
-
-st.markdown(
-    "<h1 style='text-align: left;font:Clarkson;'>Adonais</h1>", unsafe_allow_html=True
+    page_icon="💬", page_title="Adonais", layout="wide"
 )
 
 DEFAULT_ADS = [
@@ -56,6 +53,9 @@ def flatten(lst):
 chain = load_chain()
 topic_chain = load_topic_chain()
 
+# Layout ---------------------------------------------
+sidebar, main = st.columns([0.2, 0.8], gap="large")
+
 # Chat ---------------------------------------------
 
 if "history" not in st.session_state:
@@ -70,15 +70,19 @@ if "generated" not in st.session_state:
 if "ads" not in st.session_state:
     st.session_state["ads"] = DEFAULT_ADS
 
-response_container = st.container()  # chat history container
-container = st.container()  # user history container
+with main:
+    st.text("ADONA\ S")
 
-with container:
-    with st.form(key="my_form", clear_on_submit=True):
-        user_input = st.text_input(
-            "Query:", placeholder="Ask Adonais a question here", key="input"
-        )
-        submit_button = st.form_submit_button(label="Send", type="primary")
+with main:
+    response_container = st.container()  # chat history container
+    container = st.container()  # user history container
+
+    with container:
+        with st.form(key="my_form", clear_on_submit=True):
+            user_input = st.text_input(
+                "", placeholder="Ask Adonais a question here", key="input"
+            )
+            submit_button = st.form_submit_button(label="Send", type="primary")
 
 # Main ---------------------------------------------
 
@@ -123,55 +127,53 @@ if st.session_state["generated"]:
 # [title](link)
 link_format = "[{}]({})"
 
-st.markdown("""
-    <style>
-    .container {
-        border: 2px solid;
-        border-radius: 10px;
-        box-shadow: 5px 5px 5px grey;
-        padding: 10px;
-        margin: 10px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-# testing area for containers
-# with st.container():
-#     st.text('interesting content')
-#     st.text('in a potentially ')
-#     st.text('very stylish container')
-#
-# col1, col2, col3 = st.columns(3)
-# col1.write('cool column box 1')
-# col2.write('cool column box 2')
-# col3.write('cool column box 3')
 
 st.markdown(
     """
 <style>
-
+/* Style the text */
+[data-testid="stText"] {
+    color: #5746a1;
+    font-size: 40px;
+    font-weight: bold;
+    font-family: "Avenir Next", sans-serif;
+}
+.p {
+    color: #5746a1;
+    font-size: 10px;
+    font-family: "Avenir Next", sans-serif;
+}
 /* Style containers */
-[data-testid="stVerticalBlock"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"] {
+[data-testid="column"] {
     border-radius: 15px;
     box-shadow: rgb(0 0 0 / 20%) 0px 2px 4px -1px, rgb(0 0 0 / 14%) 0px 1px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 4px 0px;
     padding: 20px;
-    background-color: #f4f1ec;
 }
-[data-testid="stSidebar"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"]
 [data-testid="stHeader"] { visibility: hidden; }
-[data-testid="css-1nm2qww eczjsme2"] { visibility: hidden; }
 
 </style>
 """,
     unsafe_allow_html=True,
 )
 
-# st.sidebar.header("Sponsored")
-for ad in st.session_state.ads:
-    with st.sidebar.container():
-        st.image(ad["thumbnail"], width=200)
-        st.write(link_format.format(ad["title"], ad["link"]))
-        if 'price' in ad:
-            st.write(ad['price'])
-            st.write("{:.1f}".format(ad['rating'])+"/5")
+#collector = FeedbackCollector(
+#    component_name="default",
+#    email=st.secrets["TRUBRICS_EMAIL"], # Store your Trubrics credentials in st.secrets:
+#    password=st.secrets["TRUBRICS_PASSWORD"], # https://blog.streamlit.io/secrets-in-sharing-apps/
+#)
 
+with sidebar:
+    st.subheader("Sponsored")
+    with st.container():
+        # collector.st_feedback(
+        #     feedback_type="thumbs",
+        #     model="your_model_name",
+        #     open_feedback_label="[Optional] Provide additional feedback",
+        # )
+        for ad in st.session_state.ads:
+            with st.container():
+                st.image(ad["thumbnail"], width=200)
+                st.write(link_format.format(ad["title"], ad["link"]))
+                if 'price' in ad:
+                    st.write(ad['price'])
+                    st.write("{:.2f}".format(ad['rating']) + "/5")
