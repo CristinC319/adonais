@@ -1,7 +1,7 @@
 import requests
 
 # GoogleSearch.SERP_API_KEY = "59263e9285646cb5082978e5ec0c18518125436cb81f8e2e37a2855a1ef067f5"
-DESIRED_RESULT = "shopping_results"
+DESIRED_RESULTS = ["shopping_results", "recipes_results","related_search_boxes", "organic_results"]
 SHOPPING_RESULTS_KEY = ["title", "link", "thumbnail"]
 
 def search_direct_request(params):
@@ -9,19 +9,10 @@ def search_direct_request(params):
     resp = requests.get(base_url, params=params)
     if resp.status_code == 200:
         data = resp.json()
-        # file = open('data/json-test.json', 'w')
-        # file.write(data)
-        # file.close()
-
-        # f2 = open('data/json-raw','w')
-        # f2.write(resp.text)
-        # f2.close()
-
-        # assert(isinstance(data, dict))
-        print("search_direct_request got 200")
+        assert(isinstance(data, dict))
         return data
     else:
-        print(resp.status_code)
+        print("serp direct request failed with", resp.status_code)
         return None
 
 
@@ -51,15 +42,20 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     results = search_direct_request(params)
     # print(results)
     # results = search.get_dict()           # JSON -> Python dict
-    if results and DESIRED_RESULT in results:
-        # for element in results[DESIRED_RESULT]:
-        element = results[DESIRED_RESULT][0]
-        ad = {key: element[key] for key in SHOPPING_RESULTS_KEY}
-        print("scrape_topic got ad")
-        assert(isinstance(ad, dict))
-        return ad
+    ads = []
+    if results:
+        for kind in DESIRED_RESULTS: 
+            if kind in results and len(ads) < 3:
+                for element in results[kind]:
+                    if isinstance(element, dict) and 'thumbnail' in element and len(ads) < 3:
+                        ad = {key: element[key] for key in SHOPPING_RESULTS_KEY}
+                        print("scrape_topic got ad")
+                        assert(isinstance(ad, dict))
+                        ads.append(ad)
     else:
         return None
+
+    return ads
 
 
 def get_ads(topic_list):
@@ -69,10 +65,9 @@ def get_ads(topic_list):
     '''
     ads = []
     for topic in topic_list:
-        ad = scrape_topic(topic)
-        if ad:
-            assert(isinstance(ad, dict))
-            ads.append(ad)
+        new_ads = scrape_topic(topic)
+        if new_ads:
+            ads = ads + new_ads
     return ads
 
 
