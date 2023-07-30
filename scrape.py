@@ -32,8 +32,8 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     search = GoogleSearch(params)         # where data extraction happens
     results = search.get_dict()           # JSON -> Python dict
     if DESIRED_RESULT in results:
-        element = results[DESIRED_RESULT][0]
-        return {key: element[key] for key in SHOPPING_RESULTS_KEY}
+        for element in results[DESIRED_RESULT]:
+            return {key: element[key] for key in SHOPPING_RESULTS_KEY}
     else:
         return None
 
@@ -47,7 +47,7 @@ def get_ads(topic_list):
     for topic in topic_list:
         ad = scrape_topic(topic)
         if ad:
-            ads.append()
+            ads.append(ad)
     return ads
 
 

@@ -85,18 +85,17 @@ if submit_button and user_input:
     topic_list = get_topics(topic_results)
     print(topic_list)
 
-    # (2) get serp results
-    ad_list = get_ads(topic_list)
-
-    # (3) add adds to state - same with topics / how to deal with existing ads and what to kick out
-    st.session_state['ads'] = ad_list
-
     # (4) IF WE HAVE TIME (LLM again - why is this ad relevant to the chat/ user)
 
     # Update chat states
     st.session_state["history"].append((user_input, output))
     st.session_state["past"].append(user_input)
     st.session_state["generated"].append(output)
+
+    # serp
+    ad_list = get_ads(topic_list)
+
+    st.session_state['ads'] = ad_list
 
 # displaying history
 if st.session_state["generated"]:
