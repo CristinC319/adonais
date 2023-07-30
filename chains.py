@@ -8,8 +8,6 @@ import http.client
 import json
 import re
 
-os.environ['ANTHROPIC_API_KEY']='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'
-
 def call_anthropic_api(user_input, history):
     conn = http.client.HTTPSConnection("api.anthropic.com")
     payload = json.dumps({
