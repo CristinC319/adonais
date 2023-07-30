@@ -23,7 +23,21 @@ def load_topic_chain():
         <query></query> 
     </adQueries>
     
-    Please  act as a XML code outputter. Do not add any additional context or introduction in your response; instead, make sure your entire response is parseable by XML.</instructions>
+    Please  act as a XML code outputter. Do not add any additional context or introduction in your response; instead, make sure your entire response is parseable by XML.
+    
+    Do not include extra newlines like below
+    <badExampleResponse>
+    <adQueries>
+
+    <query>redwood forest vacation packages</query>
+
+    <query>redwood furniture buy online</query> 
+
+    <query>redwood tree seedlings for sale</query>
+
+    </adQueries>
+    </badExampleResponse
+    </instructions>
 
     <userQuery>{query}</userQuery>
 

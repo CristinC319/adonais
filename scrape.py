@@ -1,8 +1,11 @@
 import requests
 import random
+import os
 
 DESIRED_RESULTS = ["shopping_results", "recipes_results","related_search_boxes", "organic_results"]
 SHOPPING_RESULTS_KEY = ["title", "link", "thumbnail"]
+SERP_API_KEY = os.environ.get('SERP_API_KEY')
+print(SERP_API_KEY)
 
 def search_direct_request(params):
     base_url = 'https://serpapi.com/search.json'
@@ -24,7 +27,7 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     uses SERP API: https://serpapi.com/search-api
     '''
     params = {
-            "api_key": "key", # https://serpapi.com/manage-api-key
+            "api_key": SERP_API_KEY, # https://serpapi.com/manage-api-key
             "engine": "google",
             "gl": "us",
             "hl": "en",

@@ -2,9 +2,11 @@ import streamlit as st
 #from streamlit_chat import message
 import xml.etree.ElementTree as ET
 
-from chains import load_chain, load_topic_chain, call_anthropic_api
+from chains import load_chain, load_topic_chain
 from scrape import get_ads
+from read_creds import read_creds
 #from trubrics.integrations.streamlit import FeedbackCollector
+read_creds()
 
 st.set_page_config(
     page_icon="💬", page_title="Adonais", layout="wide"
@@ -93,9 +95,11 @@ if submit_button and user_input:
 
     # run topic chain on the query & response
     XML_topic_results = topic_chain.run({"query": user_input, "response": output}) 
+    print(XML_topic_results)
     root =  ET.fromstring(XML_topic_results)
     queries = root.findall('query')
     topic_results = [query.text for query in queries]
+    print(topic_results)
 
     # Update chat states
     st.session_state["history"].append((user_input, output))
