@@ -29,6 +29,7 @@ if "past" not in st.session_state:
 if "generated" not in st.session_state:
     st.session_state["generated"] = ["Hello! Ask me anything."]
 
+# TODO: Change deafults and add more
 if 'ads' not in st.session_state:
     st.session_state['ads'] = [{
         "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdi-P3cV4S6XTertu1VclzwmEIGVV_RS2tS5vlF-yUwniA&s=4",
@@ -70,7 +71,6 @@ def get_topics(topic_results):
 
     return topics
 
-
 if submit_button and user_input:
     # Response from LLM
     output = chain.run(input=user_input)
@@ -98,7 +98,6 @@ if submit_button and user_input:
     st.session_state["past"].append(user_input)
     st.session_state["generated"].append(output)
 
-
 # displaying history
 if st.session_state["generated"]:
     with response_container:
@@ -112,8 +111,6 @@ if st.session_state["generated"]:
             message(st.session_state["generated"][i], key=str(i), avatar_style="shapes")
 
 # Rendering sidebar ---------------------------------------------
-
-    
 
 # [title](link)
 link_format = "[{}]({})"
