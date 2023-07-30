@@ -171,3 +171,7 @@ for ad in st.session_state.ads:
     with st.sidebar.container():
         st.image(ad["thumbnail"], width=200)
         st.write(link_format.format(ad["title"], ad["link"]))
+        if 'price' in ad:
+            st.write(ad['price'])
+            st.write(ad['rating']+"/5")
+

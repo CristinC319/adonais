@@ -49,6 +49,9 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
                 for element in results[kind]:
                     if isinstance(element, dict) and 'thumbnail' in element and len(ads) < 3:
                         ad = {key: element[key] for key in SHOPPING_RESULTS_KEY}
+                        if 'price' in element:
+                            ad['price'] = element['price']
+                        ad["rating"] = 5 - len(ads) + .1 * len(ads)
                         print("scrape_topic got ad")
                         assert(isinstance(ad, dict))
                         ads.append(ad)
