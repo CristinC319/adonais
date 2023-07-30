@@ -52,10 +52,18 @@ def load_chain():
 
 def load_topic_chain():
 
-    post_llm_prompt = """You are an assistant to an ad publisher. 
-    Given a user query, and an initial response, use the initial response to generate no more than 3 searchable queries that are likely to return sponsored results. Your answer should not contain anything but the queries. The format for the response is query 1,query 2,query 3 with no extra formatting
-    User query: {query}
-    Initial response: {response}"""
+    post_llm_prompt = """
+    
+    Human: <context>You are an assistant to an ad publisher. We want to embed ads into a Claude2 chatbot interface. To get the ads, we will send three that you generate to SerpApi's google search results API then just scrap the ["shopping_results", "recipes_results","related_search_boxes", "organic_results"] of the JSON to get the ["title", "link", "thumbnail"] fields.</context>
+    
+    <instructions>Please take the user query inside the <userQuery></userQuery> XML tags, and Claude2's response inside the <LLMResponse></LLMResponse> XML tags, and generate exactly 3 queries inside of XML tags as <query1></query1>, <query2></query2>, <query3></query3>. Please return only the queries inside the XML tags so that I can parse it easily. 
+
+    <userQuery>{query}</userQuery>
+
+    <LLMResponse>{response}</LLMResponse>
+    
+    Assistant:
+    """
 
     chat_llm = ChatAnthropic()
     post_llm_prompttemplate = PromptTemplate(input_variables=['query', 'response'], template=post_llm_prompt)
