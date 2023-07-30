@@ -1,6 +1,7 @@
 import requests
 import random
 import os
+from read_creds import read_creds
 
 DESIRED_RESULTS = ["shopping_results", "recipes_results","related_search_boxes", "organic_results"]
 SHOPPING_RESULTS_KEY = ["title", "link", "thumbnail"]
@@ -8,6 +9,7 @@ SERP_API_KEY = os.environ.get('SERP_API_KEY')
 print(SERP_API_KEY)
 
 def search_direct_request(params):
+    read_creds()
     base_url = 'https://serpapi.com/search.json'
     resp = requests.get(base_url, params=params)
     if resp.status_code == 200:

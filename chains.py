@@ -3,15 +3,17 @@ from langchain.chains import ConversationChain
 from langchain.chat_models import ChatOpenAI
 from langchain import OpenAI, LLMChain, PromptTemplate
 from langchain.chat_models import ChatAnthropic
+from read_creds import read_creds
 
 def load_chain():
+    read_creds()
     llm = ChatAnthropic(max_tokens_to_sample=10000)
     chain = ConversationChain(llm=llm)
     return chain
 
 
 def load_topic_chain():
-
+    read_creds()
     post_llm_prompt = """
     
     Human: <context>You are an assistant to an ad publisher. We want to embed ads into a Claude2 chatbot interface. To get the ads, we will send three searchable ad queries that you generate to SerpApi's google search results API. Then we will just scrape the ["shopping_results", "recipes_results","related_search_boxes", "organic_results"] of the google search response JSON to get the ["title", "link", "thumbnail"] fields.</context>
@@ -22,10 +24,9 @@ def load_topic_chain():
         <query></query>
         <query></query> 
     </adQueries>
+
     
-    Please  act as a XML code outputter. Do not add any additional context or introduction in your response; instead, make sure your entire response is parseable by XML.
-    
-    Do not include extra newlines like below
+    Do not include extra newlines between XML blocks like below
     <badExampleResponse>
     <adQueries>
 
@@ -37,6 +38,8 @@ def load_topic_chain():
 
     </adQueries>
     </badExampleResponse
+
+    Please act as a XML code outputter. Do not add any additional context or introduction in your response; instead, make sure your entire response is parseable by XML.
     </instructions>
 
     <userQuery>{query}</userQuery>

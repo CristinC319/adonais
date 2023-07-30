@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from chains import load_chain, load_topic_chain
 from scrape import get_ads
 from read_creds import read_creds
+from only_xml import only_xml
 #from trubrics.integrations.streamlit import FeedbackCollector
 read_creds()
 
@@ -90,11 +91,13 @@ with main:
 # Main ---------------------------------------------
 
 if submit_button and user_input:
+    read_creds()
     # Response from LLM
     output = chain.run(input=user_input)
 
     # run topic chain on the query & response
-    XML_topic_results = topic_chain.run({"query": user_input, "response": output}) 
+    raw_topic_results = topic_chain.run({"query": user_input, "response": output}) 
+    XML_topic_results = only_xml(raw_topic_results)
     print(XML_topic_results)
     root =  ET.fromstring(XML_topic_results)
     queries = root.findall('query')

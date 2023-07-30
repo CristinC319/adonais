@@ -1,3 +1,7 @@
+# you must add API keys to run this code inside a `creds.txt`
+ANTHROPIC_API_KEY=<KEY>
+SERP_API_KEY=<KEY>
+
 # make venv
 `python -m venv venv`
 
@@ -10,3 +14,6 @@
 
 # run venv
 `source venv/bin/activate`
+
+# run streamlit
+`streamlit run main.py`
