@@ -4,8 +4,28 @@ from langchain.chat_models import ChatOpenAI
 from langchain import OpenAI, LLMChain, PromptTemplate
 from langchain.chat_models import ChatAnthropic
 import os
+import http.client
+import json
 
 os.environ['ANTHROPIC_API_KEY']='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'
+
+def call_anthropic_api():
+    conn = http.client.HTTPSConnection("api.anthropic.com")
+    payload = json.dumps({
+        "prompt": "\n\nHuman: where should i go in new york for food \n\nAssistant:",
+        "max_tokens_to_sample": 150,
+        "model": "claude-2"
+    })
+    headers = {
+        'accept': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'x-api-key': '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'
+    }
+    conn.request("POST", "/v1/complete", payload, headers)
+    res = conn.getresponse()
+    data = res.read()
+    print(data.decode("utf-8"))
 
 def load_chain():
     llm = ChatAnthropic()
