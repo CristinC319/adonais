@@ -4,7 +4,7 @@ streamlit-chat
 watchdog
 
 langchain
-open-ai
 anthropic
 
 google-search-results
+requests
