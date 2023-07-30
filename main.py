@@ -162,18 +162,18 @@ collector = FeedbackCollector(
     password=st.secrets["TRUBRICS_PASSWORD"], # https://blog.streamlit.io/secrets-in-sharing-apps/
 )
 
-# st.sidebar.header("Sponsored")
 with sidebar:
-    # with st.container():
-    #     collector.st_feedback(
-    #         feedback_type="thumbs",
-    #         model="your_model_name",
-    #         open_feedback_label="[Optional] Provide additional feedback",
-    #     )
-    for ad in st.session_state.ads:
-        with st.container():
-            st.image(ad["thumbnail"], width=200)
-            st.write(link_format.format(ad["title"], ad["link"]))
-            if 'price' in ad:
-                st.write(ad['price'])
-                st.write("{:.2f}".format(ad['rating']) + "/5")
+    st.subheader("Sponsored")
+    with st.container():
+        # collector.st_feedback(
+        #     feedback_type="thumbs",
+        #     model="your_model_name",
+        #     open_feedback_label="[Optional] Provide additional feedback",
+        # )
+        for ad in st.session_state.ads:
+            with st.container():
+                st.image(ad["thumbnail"], width=200)
+                st.write(link_format.format(ad["title"], ad["link"]))
+                if 'price' in ad:
+                    st.write(ad['price'])
+                    st.write("{:.2f}".format(ad['rating']) + "/5")
