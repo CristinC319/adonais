@@ -60,7 +60,7 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     else:
         return None
 
-    return ads
+    # return ads
 
 
 def get_ads(topic_list):
@@ -70,9 +70,9 @@ def get_ads(topic_list):
     '''
     ads = []
     for topic in topic_list:
-        new_ads = scrape_topic(topic)
-        if new_ads:
-            ads = ads + new_ads
+        ad = scrape_topic(topic)
+        if ad:
+            ads.append(ad)
     return ads[:2]
 
 
