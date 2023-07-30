@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_chat import message
 
-from chains import load_chain, load_topic_chain
+from chains import load_chain, load_topic_chain, call_anthropic_api
 from scrape import get_ads
 
 st.set_page_config(
@@ -84,7 +84,8 @@ with container:
 
 if submit_button and user_input:
     # Response from LLM
-    output = chain.run(input=user_input)
+    #output = chain.run(input=user_input)
+    output = call_anthropic_api(user_input, st.session_state["history"])
 
     # run topic chain on the query & response
     topic_results = topic_chain.run({"query": user_input, "response": output})
@@ -156,6 +157,9 @@ st.markdown(
     padding: 20px;
     background-color: #f4f1ec;
 }
+[data-testid="stSidebar"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"]
+[data-testid="stHeader"] { visibility: hidden; }
+[data-testid="css-1nm2qww eczjsme2"] { visibility: hidden; }
 
 </style>
 """,
