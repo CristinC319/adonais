@@ -1,7 +1,7 @@
 import streamlit as st
 #from streamlit_chat import message
 
-from chains import load_chain, load_topic_chain, call_anthropic_api
+from chains import load_chain, load_topic_chain
 from scrape import get_ads
 #from trubrics.integrations.streamlit import FeedbackCollector
 

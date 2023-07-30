@@ -1,7 +1,6 @@
 import requests
 import random
 
-# GoogleSearch.SERP_API_KEY = "59263e9285646cb5082978e5ec0c18518125436cb81f8e2e37a2855a1ef067f5"
 DESIRED_RESULTS = ["shopping_results", "recipes_results","related_search_boxes", "organic_results"]
 SHOPPING_RESULTS_KEY = ["title", "link", "thumbnail"]
 
@@ -27,7 +26,7 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     uses SERP API: https://serpapi.com/search-api
     '''
     params = {
-            "api_key": "59263e9285646cb5082978e5ec0c18518125436cb81f8e2e37a2855a1ef067f5",                 # https://serpapi.com/manage-api-key
+            "api_key": "key",                 # https://serpapi.com/manage-api-key
             "engine": "google",               # search engine
             # "q": "buy rtx 3080",              # search query 
             "gl": "us",                       # country to search from
