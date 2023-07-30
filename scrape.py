@@ -6,8 +6,23 @@ SHOPPING_RESULTS_KEY = ["title", "link", "thumbnail"]
 
 def search_direct_request(params):
     base_url = 'https://serpapi.com/search.json'
+    resp = requests.get(base_url, params=params)
+    if resp.status_code == 200:
+        data = resp.json()
+        # file = open('data/json-test.json', 'w')
+        # file.write(data)
+        # file.close()
 
-    return requests.get(base_url, params=params)
+        f2 = open('data/json-raw','w')
+        f2.write(resp.text)
+        f2.close()
+
+        assert(isinstance(data, dict))
+
+        return data
+    else:
+        print(resp.status_code)
+        return None
 
 
 
@@ -34,11 +49,15 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
 
     # search = GoogleSearch(params)         # where data extraction happens
     results = search_direct_request(params)
-    print(results)
+    # print(results)
     # results = search.get_dict()           # JSON -> Python dict
-    if DESIRED_RESULT in results:
-        for element in results[DESIRED_RESULT]:
-            return {key: element[key] for key in SHOPPING_RESULTS_KEY}
+    if results and DESIRED_RESULT in results:
+        # for element in results[DESIRED_RESULT]:
+        element = results[0]
+        ad = {key: element[key] for key in SHOPPING_RESULTS_KEY}
+        print(ad)
+        assert(isinstance(ad, dict))
+        return ad
     else:
         return None
 
@@ -52,6 +71,7 @@ def get_ads(topic_list):
     for topic in topic_list:
         ad = scrape_topic(topic)
         if ad:
+            assert(isinstance(ad, dict))
             ads.append(ad)
     return ads
 
