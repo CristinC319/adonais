@@ -27,7 +27,9 @@ def call_anthropic_api(user_input, history):
     conn.request("POST", "/v1/complete", payload, headers)
     res = conn.getresponse()
     data = res.read()
-    data = data.decode("utf-8")
+    data = data.decode("utf-8") 
+
+    print(data)
 
     regex_pattern = r'"completion":"([^"]+)"'
 
@@ -40,8 +42,10 @@ def call_anthropic_api(user_input, history):
 
     return str(completion_portion)
 
+print(call_anthropic_api("Best coffee shops in san francisco?", ""))
+
 def load_chain():
-    llm = ChatAnthropic()
+    llm = ChatAnthropic(max_tokens_to_sample=10000)
     chain = ConversationChain(llm=llm)
     return chain
 
