@@ -57,7 +57,7 @@ with container:
         user_input = st.text_input(
             "Query:", placeholder="Ask a question here", key="input"
         )
-        submit_button = st.form_submit_button(label="Send")
+        submit_button = st.form_submit_button(label="Send", type="primary")
 
 # Main ---------------------------------------------
 
@@ -82,13 +82,11 @@ if submit_button and user_input:
 if st.session_state["generated"]:
     with response_container:
         for i in range(len(st.session_state["generated"])):
-            message(
-                st.session_state["past"][i],
-                is_user=True,
-                key=str(i) + "_user",
-                avatar_style="identicon",
-            )
-            message(st.session_state["generated"][i], key=str(i), avatar_style="shapes")
+            message = st.chat_message("user")
+            message.write(st.session_state["past"][i])
+
+            message = st.chat_message("assistant", avatar="ant.png")
+            message.write(st.session_state["generated"][i])
 
 # Rendering sidebar ---------------------------------------------
 
