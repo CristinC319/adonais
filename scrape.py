@@ -3,10 +3,18 @@
 Web scraper
 '''
 from serpapi import GoogleSearch 
+import requests
 
 GoogleSearch.SERP_API_KEY = "59263e9285646cb5082978e5ec0c18518125436cb81f8e2e37a2855a1ef067f5"
 DESIRED_RESULT = "shopping_results"
 SHOPPING_RESULTS_KEY = ["title", "link", "thumbnail"]
+
+def search_direct_request(params):
+    base_url = 'https://serpapi.com/search.json'
+
+    return requests.get(base_url, params=params)
+
+
 
 def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"):
     '''
@@ -29,8 +37,10 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
 
     params["q"] = topic
 
-    search = GoogleSearch(params)         # where data extraction happens
-    results = search.get_dict()           # JSON -> Python dict
+    # search = GoogleSearch(params)         # where data extraction happens
+    results = search_direct_request(params)
+    print(results)
+    # results = search.get_dict()           # JSON -> Python dict
     if DESIRED_RESULT in results:
         for element in results[DESIRED_RESULT]:
             return {key: element[key] for key in SHOPPING_RESULTS_KEY}
@@ -55,4 +65,5 @@ def get_ads(topic_list):
 #     print(x)
 # for x in scrape_topic("coffee"):
 #     print(x)
+
 
