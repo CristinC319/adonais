@@ -4,13 +4,15 @@ from streamlit_chat import message
 from chains import load_chain, load_topic_chain
 from scrape import get_ads
 
-st.set_page_config(page_icon="💬", page_title="Adonais", initial_sidebar_state="expanded")
+st.set_page_config(
+    page_icon="💬", page_title="Adonais", initial_sidebar_state="expanded"
+)
 
 st.markdown(
-    "<h1 style='text-align: left;font:Clarkson;'>Adonais</h1>",
-    unsafe_allow_html=True)
+    "<h1 style='text-align: left;font:Clarkson;'>Adonais</h1>", unsafe_allow_html=True
+)
 
-#~/anaconda3/envs/standard/bin/streamlit run main.py
+# ~/anaconda3/envs/standard/bin/streamlit run main.py
 # Langchain ---------------------------------------------
 
 chain = load_chain()
@@ -18,40 +20,41 @@ topic_chain = load_topic_chain()
 
 # Chat ---------------------------------------------
 
-if 'history' not in st.session_state:
-    st.session_state['history'] = []
+if "history" not in st.session_state:
+    st.session_state["history"] = []
 
-if 'past' not in st.session_state:
-    st.session_state['past'] = ["Hey!"]
+if "past" not in st.session_state:
+    st.session_state["past"] = ["Hey!"]
 
-if 'generated' not in st.session_state:
-    st.session_state['generated'] = ["Hello! Ask me anything."]
+if "generated" not in st.session_state:
+    st.session_state["generated"] = ["Hello! Ask me anything."]
 
 # if 'ads' not in st.session_state:
-    # st.session_state['generated'] = ["Hello! Ask me anything."]
+# st.session_state['generated'] = ["Hello! Ask me anything."]
 
-response_container = st.container() # chat history container
-container = st.container() # user history container
+response_container = st.container()  # chat history container
+container = st.container()  # user history container
 
 with container:
-    
-    with st.form(key='my_form', clear_on_submit=True): 
-        
-        user_input = st.text_input("Query:", placeholder="Ask a question here", key='input') 
-        submit_button = st.form_submit_button(label='Send')
-    
+    with st.form(key="my_form", clear_on_submit=True):
+        user_input = st.text_input(
+            "Query:", placeholder="Ask a question here", key="input"
+        )
+        submit_button = st.form_submit_button(label="Send")
+
 # Main ---------------------------------------------
 
-if 'topics' not in st.session_state:
-    st.session_state.topics = [] 
+if "topics" not in st.session_state:
+    st.session_state.topics = []
 
-def get_topics(topic_results): 
-    ''''
-    tasks: 
+
+def get_topics(topic_results):
+    """'
+    tasks:
     * how many topics to keep at a time
     * set (all unique)
     * what format do the topics come from the LLM - if it sucks then don't change the state
-    '''
+    """
 
     topics = st.session_state.topics
 
@@ -64,67 +67,74 @@ def get_topics(topic_results):
 
 
 if submit_button and user_input:
-    
     # Response from LLM
     output = chain.run(input=user_input)
 
     # run topic chain on the query & response
-    topic_results = topic_chain.run({'query': user_input, 'response': output})
-    topic_results = topic_results.split(',')
+    topic_results = topic_chain.run({"query": user_input, "response": output})
+    topic_results = topic_results.split(",")
 
     ### OPTIONAL: get location name (default San Francisco rn) as well for scraping
 
-    # (1) get list (set) of topics from state 
+    # (1) get list (set) of topics from state
     topic_list = get_topics(topic_results)
     print(topic_list)
-    
+
     # (2) get serp results
     ad_list = get_ads(topic_list)
 
-    # (3) add adds to state - same with topics / how to deal with existing ads and what to kick out 
+    # (3) add adds to state - same with topics / how to deal with existing ads and what to kick out
     # st.session_state[]
 
-
     # (4) IF WE HAVE TIME (LLM again - why is this ad relevant to the chat/ user)
-    
 
     # Update chat states
-    st.session_state['history'].append((user_input, output))
-    st.session_state['past'].append(user_input)
-    st.session_state['generated'].append(output)
+    st.session_state["history"].append((user_input, output))
+    st.session_state["past"].append(user_input)
+    st.session_state["generated"].append(output)
 
 
 # displaying history
-if st.session_state['generated']:
-    
+if st.session_state["generated"]:
     with response_container:
-        
-        for i in range(len(st.session_state['generated'])):
-            message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', avatar_style="identicon")
+        for i in range(len(st.session_state["generated"])):
+            message(
+                st.session_state["past"][i],
+                is_user=True,
+                key=str(i) + "_user",
+                avatar_style="identicon",
+            )
             message(st.session_state["generated"][i], key=str(i), avatar_style="shapes")
 
 # Rendering sidebar ---------------------------------------------
 
-if 'ad1' not in st.session_state:
-    st.session_state.ad1 = ["ex1.png",'title','link']
-    st.session_state.ad2 = ["ex1.png",'title','link']
-    st.session_state.ad3 = ["ex1.png",'title','link']
-    st.session_state.ad4 = ["ex1.png",'title','link']
-    st.session_state.ad5 = ["ex1.png",'title','link']
+if "ad1" not in st.session_state:
+    st.session_state.ad1 = {
+        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdi-P3cV4S6XTertu1VclzwmEIGVV_RS2tS5vlF-yUwniA&s=4",
+        "title": "Straight to the Gate Access: San Francisco Ferry to Sausalito",
+        "link": "https://www.tripadvisor.com/",
+    }
+    st.session_state.ad2 = ["ex1.png", "title", "link"]
+    st.session_state.ad3 = ["ex1.png", "title", "link"]
+    st.session_state.ad4 = ["ex1.png", "title", "link"]
+    st.session_state.ad5 = ["ex1.png", "title", "link"]
 
 
-#st.sidebar.header("Ad1")
-st.sidebar.image(st.session_state.ad1[0], width=200)
-#st.sidebar.write("desc")
+# st.sidebar.header("Ad1")
+ad1 = st.session_state.ad1
+# [title](link)
+link_format = "[{}]({})"
+st.sidebar.image(ad1["thumbnail"], width=200)
+st.sidebar.write(link_format.format(ad1["title"], ad1["link"]))
 
-#st.sidebar.header("Ad2")
+# st.sidebar.header("Ad2")
 st.sidebar.image(st.session_state.ad2[0], width=200)
 
-#st.sidebar.header("Ad3")
+# st.sidebar.header("Ad3")
 st.sidebar.image(st.session_state.ad3[0], width=200)
 
-#st.sidebar.header("Ad4")
+# st.sidebar.header("Ad4")
 st.sidebar.image(st.session_state.ad4[0], width=200)
 
-#st.sidebar.header("Ad5")
+# st.sidebar.header("Ad5")
 st.sidebar.image(st.session_state.ad5[0], width=200)

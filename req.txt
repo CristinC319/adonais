@@ -4,5 +4,6 @@ streamlit-chat
 
 langchain
 open-ai
+anthropic
 
 google-search-results
