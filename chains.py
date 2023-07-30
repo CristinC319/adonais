@@ -13,6 +13,7 @@ def call_anthropic_api():
     conn = http.client.HTTPSConnection("api.anthropic.com")
     payload = json.dumps({
         "prompt": "\n\nHuman: where should i go in new york for food \n\nAssistant:",
+        # this is the param that is used to set the response tokens
         "max_tokens_to_sample": 150,
         "model": "claude-2"
     })
