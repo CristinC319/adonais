@@ -8,3 +8,6 @@ anthropic
 
 google-search-results
 requests
+
+black
+prettier
