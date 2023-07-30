@@ -1,6 +1,4 @@
 import streamlit as st
-#from streamlit_chat import message
-
 from chains import load_chain, load_topic_chain
 from scrape import get_ads
 #from trubrics.integrations.streamlit import FeedbackCollector
@@ -47,13 +45,13 @@ def flatten(lst):
             result.append(i)
     return result
 
-# ~/anaconda3/envs/standard/bin/streamlit run main.py
 # Langchain ---------------------------------------------
 
 chain = load_chain()
 topic_chain = load_topic_chain()
 
 # Layout ---------------------------------------------
+
 sidebar, main = st.columns([0.2, 0.8], gap="large")
 
 # Chat ---------------------------------------------
@@ -89,7 +87,6 @@ with main:
 if submit_button and user_input:
     # Response from LLM
     output = chain.run(input=user_input)
-    #output = call_anthropic_api(user_input, st.session_state["history"])
 
     # run topic chain on the query & response
     topic_results = topic_chain.run({"query": user_input, "response": output})
@@ -102,7 +99,7 @@ if submit_button and user_input:
 
     # serp
     ad_list = get_ads(topic_results)
-    # TODO: CHANGE AD REFRESH/COMBINATION LOGIC 
+
     if not ad_list:
         print("Empty ad_list")
     for ad in ad_list:
@@ -156,20 +153,9 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-#collector = FeedbackCollector(
-#    component_name="default",
-#    email=st.secrets["TRUBRICS_EMAIL"], # Store your Trubrics credentials in st.secrets:
-#    password=st.secrets["TRUBRICS_PASSWORD"], # https://blog.streamlit.io/secrets-in-sharing-apps/
-#)
-
 with sidebar:
     st.subheader("Sponsored")
     with st.container():
-        # collector.st_feedback(
-        #     feedback_type="thumbs",
-        #     model="your_model_name",
-        #     open_feedback_label="[Optional] Provide additional feedback",
-        # )
         for ad in st.session_state.ads:
             with st.container():
                 st.image(ad["thumbnail"], width=200)

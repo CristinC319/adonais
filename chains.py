@@ -3,10 +3,6 @@ from langchain.chains import ConversationChain
 from langchain.chat_models import ChatOpenAI
 from langchain import OpenAI, LLMChain, PromptTemplate
 from langchain.chat_models import ChatAnthropic
-import os
-import http.client
-import json
-import re
 
 def load_chain():
     llm = ChatAnthropic(max_tokens_to_sample=10000)
@@ -34,9 +30,4 @@ def load_topic_chain():
     topic_chain = LLMChain(llm=chat_llm, prompt=post_llm_prompttemplate)
 
     return topic_chain
-
-#topic_chain = load_topic_chain()
-#res = topic_chain.run({'query': 'Im traveling to san francisco and I need a daily itinerary', 'response': "restaurants, musuems"})
-#res_list = res.split(',')
-#print(res_list)
 
