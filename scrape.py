@@ -42,7 +42,7 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     results = search_direct_request(params)
     # print(results)
     # results = search.get_dict()           # JSON -> Python dict
-    ads = []
+    # ads = []
     if results:
         for kind in DESIRED_RESULTS: 
             if kind in results and len(ads) < 3:
@@ -54,7 +54,8 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
                         ad["rating"] = 5 - len(ads) + .1 * len(ads)
                         print("scrape_topic got ad")
                         assert(isinstance(ad, dict))
-                        ads.append(ad)
+                        # ads.append(ad)
+                        return ad
     else:
         return None
 
@@ -71,7 +72,7 @@ def get_ads(topic_list):
         new_ads = scrape_topic(topic)
         if new_ads:
             ads = ads + new_ads
-    return ads
+    return ads[:2]
 
 
 # for x in scrape_topic():
