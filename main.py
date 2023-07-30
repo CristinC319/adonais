@@ -29,7 +29,7 @@ if "past" not in st.session_state:
 if "generated" not in st.session_state:
     st.session_state["generated"] = ["Hello! Ask me anything."]
 
-# TODO: Change deafults and add more
+
 if 'ads' not in st.session_state:
     st.session_state['ads'] = [{"thumbnail":"https://ik.imagekit.io/partiful/tr:f-auto,fo-auto,pr-true,w-800,dpr-auto/user/hjjMsPmsF4dMR4r0s1uRb4ryOxV2/dea-LIWFUN6IBTc0pl5OG",
         "title":"Join Anthropic's Hackathon",
@@ -106,7 +106,7 @@ if submit_button and user_input:
     # serp
     ad_list = get_ads(topic_list)
 
-    st.session_state['ads'] = ad_list
+    st.session_state['ads'] = ad_list.append(st.session_state['ads'])
 
 # displaying history
 if st.session_state["generated"]:
