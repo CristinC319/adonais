@@ -98,6 +98,8 @@ if submit_button and user_input:
     # serp
     ad_list = get_ads(topic_results)
     # TODO: CHANGE AD REFRESH/COMBINATION LOGIC 
+    if not ad_list:
+        print("Empty ad_list")
     for ad in ad_list:
         print(ad)
         assert(isinstance(ad, dict))

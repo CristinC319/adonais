@@ -18,7 +18,7 @@ def search_direct_request(params):
         # f2.close()
 
         # assert(isinstance(data, dict))
-
+        print("search_direct_request got 200")
         return data
     else:
         print(resp.status_code)
@@ -53,9 +53,9 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     # results = search.get_dict()           # JSON -> Python dict
     if results and DESIRED_RESULT in results:
         # for element in results[DESIRED_RESULT]:
-        element = results[0]
+        element = results[DESIRED_RESULT][0]
         ad = {key: element[key] for key in SHOPPING_RESULTS_KEY}
-        print(ad)
+        print("scrape_topic got ad")
         assert(isinstance(ad, dict))
         return ad
     else:
