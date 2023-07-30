@@ -29,8 +29,13 @@ if "past" not in st.session_state:
 if "generated" not in st.session_state:
     st.session_state["generated"] = ["Hello! Ask me anything."]
 
-# if 'ads' not in st.session_state:
-# st.session_state['generated'] = ["Hello! Ask me anything."]
+if 'ads' not in st.session_state:
+    st.session_state['ads'] = [{
+        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdi-P3cV4S6XTertu1VclzwmEIGVV_RS2tS5vlF-yUwniA&s=4",
+        "title": "Straight to the Gate Access: San Francisco Ferry to Sausalito",
+        "link": "https://www.tripadvisor.com/",
+    }]
+    
 
 response_container = st.container()  # chat history container
 container = st.container()  # user history container
@@ -84,7 +89,7 @@ if submit_button and user_input:
     ad_list = get_ads(topic_list)
 
     # (3) add adds to state - same with topics / how to deal with existing ads and what to kick out
-    # st.session_state[]
+    st.session_state['ads'] = ad_list
 
     # (4) IF WE HAVE TIME (LLM again - why is this ad relevant to the chat/ user)
 
@@ -108,33 +113,12 @@ if st.session_state["generated"]:
 
 # Rendering sidebar ---------------------------------------------
 
-if "ad1" not in st.session_state:
-    st.session_state.ad1 = {
-        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdi-P3cV4S6XTertu1VclzwmEIGVV_RS2tS5vlF-yUwniA&s=4",
-        "title": "Straight to the Gate Access: San Francisco Ferry to Sausalito",
-        "link": "https://www.tripadvisor.com/",
-    }
-    st.session_state.ad2 = ["ex1.png", "title", "link"]
-    st.session_state.ad3 = ["ex1.png", "title", "link"]
-    st.session_state.ad4 = ["ex1.png", "title", "link"]
-    st.session_state.ad5 = ["ex1.png", "title", "link"]
+    
 
-
-# st.sidebar.header("Ad1")
-ad1 = st.session_state.ad1
 # [title](link)
 link_format = "[{}]({})"
-st.sidebar.image(ad1["thumbnail"], width=200)
-st.sidebar.write(link_format.format(ad1["title"], ad1["link"]))
 
-# st.sidebar.header("Ad2")
-st.sidebar.image(st.session_state.ad2[0], width=200)
-
-# st.sidebar.header("Ad3")
-st.sidebar.image(st.session_state.ad3[0], width=200)
-
-# st.sidebar.header("Ad4")
-st.sidebar.image(st.session_state.ad4[0], width=200)
-
-# st.sidebar.header("Ad5")
-st.sidebar.image(st.session_state.ad5[0], width=200)
+# st.sidebar.header("Ad1")
+for ad in st.session_state.ads:
+    st.sidebar.image(ad["thumbnail"], width=200)
+    st.sidebar.write(link_format.format(ad["title"], ad["link"]))

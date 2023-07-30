@@ -1,6 +1,7 @@
 
 streamlit
 streamlit-chat
+watchdog
 
 langchain
 open-ai

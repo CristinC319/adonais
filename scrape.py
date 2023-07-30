@@ -12,7 +12,7 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     '''
     input: topic (one word typically, but could be any search query)
     optional: location (natural language string)
-    output: One Ad as a list [title, link, thumbnail]
+    output: One Ad as a list {title:'', link:'', thumbnail:''}
     OR None --- HANDLE THIS CASE
     uses SERP API: https://serpapi.com/search-api
     '''
@@ -45,8 +45,9 @@ def get_ads(topic_list):
     '''
     ads = []
     for topic in topic_list:
-        ads.append(scrape_topic(topic))
-
+        ad = scrape_topic(topic)
+        if ad:
+            ads.append()
     return ads
 
 
