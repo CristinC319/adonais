@@ -132,15 +132,16 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-with st.container():
-    st.text('interesting content')
-    st.text('in a potentially ')
-    st.text('very stylish container')
-
-col1, col2, col3 = st.columns(3)
-col1.write('cool column box 1')
-col2.write('cool column box 2')
-col3.write('cool column box 3')
+# testing area for containers
+# with st.container():
+#     st.text('interesting content')
+#     st.text('in a potentially ')
+#     st.text('very stylish container')
+#
+# col1, col2, col3 = st.columns(3)
+# col1.write('cool column box 1')
+# col2.write('cool column box 2')
+# col3.write('cool column box 3')
 
 st.markdown(
     """
@@ -149,8 +150,11 @@ st.markdown(
 /* Style containers */
 [data-testid="stVerticalBlock"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"] {
     border-radius: 15px;
-    box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px, rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
+    box-shadow: rgb(0 0 0 / 20%) 0px 2px 4px -1px, rgb(0 0 0 / 14%) 0px 1px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 4px 0px;
+    padding: 20px;
+    background-color: #f4f1ec;
 }
+
 </style>
 """,
     unsafe_allow_html=True,
@@ -158,7 +162,6 @@ st.markdown(
 
 # st.sidebar.header("Sponsored")
 for ad in st.session_state.ads:
-    with st.container():
-        st.sidebar.image(ad["thumbnail"], width=200)
-        st.sidebar.write(link_format.format(ad["title"], ad["link"]))
-
+    with st.sidebar.container():
+        st.image(ad["thumbnail"], width=200)
+        st.write(link_format.format(ad["title"], ad["link"]))
