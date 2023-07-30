@@ -51,7 +51,7 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
                         ad = {key: element[key] for key in SHOPPING_RESULTS_KEY}
                         if 'price' in element:
                             ad['price'] = element['price']
-                        ad["rating"] = 5 - len(ads) + .1 * len(ads)
+                        ad["rating"] = 5 #- len(ads) + .1 * len(ads)
                         print("scrape_topic got ad")
                         assert(isinstance(ad, dict))
                         # ads.append(ad)
