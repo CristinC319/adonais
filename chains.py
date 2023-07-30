@@ -42,7 +42,7 @@ def call_anthropic_api(user_input, history):
 
     return str(completion_portion)
 
-print(call_anthropic_api("Best coffee shops in san francisco?", ""))
+#print(call_anthropic_api("Best coffee shops in san francisco?", ""))
 
 def load_chain():
     llm = ChatAnthropic(max_tokens_to_sample=10000)
