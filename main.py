@@ -76,9 +76,9 @@ container = st.container()  # user history container
 with container:
     with st.form(key="my_form", clear_on_submit=True):
         user_input = st.text_input(
-            "Query:", placeholder="Ask a question here", key="input"
+            "Query:", placeholder="Ask Adonais a question here", key="input"
         )
-        submit_button = st.form_submit_button(label="Send")
+        submit_button = st.form_submit_button(label="Send", type="primary")
 
 # Main ---------------------------------------------
 
@@ -109,22 +109,56 @@ if submit_button and user_input:
 if st.session_state["generated"]:
     with response_container:
         for i in range(len(st.session_state["generated"])):
-            message(
-                st.session_state["past"][i],
-                is_user=True,
-                key=str(i) + "_user",
-                avatar_style="identicon",
-            )
-            message(st.session_state["generated"][i], key=str(i), avatar_style="shapes")
+            message = st.chat_message("user")
+            message.write(st.session_state["past"][i])
+
+            message = st.chat_message("assistant", avatar="ant.png")
+            message.write(st.session_state["generated"][i])
 
 # Rendering sidebar ---------------------------------------------
 
 # [title](link)
 link_format = "[{}]({})"
 
+st.markdown("""
+    <style>
+    .container {
+        border: 2px solid;
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px grey;
+        padding: 10px;
+        margin: 10px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+with st.container():
+    st.text('interesting content')
+    st.text('in a potentially ')
+    st.text('very stylish container')
+
+col1, col2, col3 = st.columns(3)
+col1.write('cool column box 1')
+col2.write('cool column box 2')
+col3.write('cool column box 3')
+
+st.markdown(
+    """
+<style>
+
+/* Style containers */
+[data-testid="stVerticalBlock"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"] {
+    border-radius: 15px;
+    box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px, rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
 # st.sidebar.header("Sponsored")
-for ad in st.session_state['ads']:
-    print(ad)
-    assert(isinstance(ad, dict))
-    st.sidebar.image(ad["thumbnail"], width=200)
-    st.sidebar.write(link_format.format(ad["title"], ad["link"]))
+for ad in st.session_state.ads:
+    with st.container():
+        st.sidebar.image(ad["thumbnail"], width=200)
+        st.sidebar.write(link_format.format(ad["title"], ad["link"]))
+
