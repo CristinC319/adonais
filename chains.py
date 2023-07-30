@@ -6,15 +6,16 @@ from langchain.chat_models import ChatAnthropic
 import os
 import http.client
 import json
+import re
 
 os.environ['ANTHROPIC_API_KEY']='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'
 
-def call_anthropic_api():
+def call_anthropic_api(user_input, history):
     conn = http.client.HTTPSConnection("api.anthropic.com")
     payload = json.dumps({
-        "prompt": "\n\nHuman: where should i go in new york for food \n\nAssistant:",
+        "prompt": str(history)+"\n\nHuman:"+str(user_input)+"\n\nAssistant:",
         # this is the param that is used to set the response tokens
-        "max_tokens_to_sample": 150,
+        "max_tokens_to_sample": 10000,
         "model": "claude-2"
     })
     headers = {
@@ -26,7 +27,18 @@ def call_anthropic_api():
     conn.request("POST", "/v1/complete", payload, headers)
     res = conn.getresponse()
     data = res.read()
-    print(data.decode("utf-8"))
+    data = data.decode("utf-8")
+
+    regex_pattern = r'"completion":"([^"]+)"'
+
+    # Find the match using the regex pattern
+    match = re.search(regex_pattern, data)
+
+    if match:
+        completion_portion = match.group(1)
+        print(type(completion_portion))
+
+    return str(completion_portion)
 
 def load_chain():
     llm = ChatAnthropic()
