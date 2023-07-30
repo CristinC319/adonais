@@ -157,6 +157,9 @@ st.markdown(
     padding: 20px;
     background-color: #f4f1ec;
 }
+[data-testid="stSidebar"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"]
+[data-testid="stHeader"] { visibility: hidden; }
+[data-testid="css-1nm2qww eczjsme2"] { visibility: hidden; }
 
 </style>
 """,
