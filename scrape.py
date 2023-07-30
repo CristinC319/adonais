@@ -13,11 +13,11 @@ def search_direct_request(params):
         # file.write(data)
         # file.close()
 
-        f2 = open('data/json-raw','w')
-        f2.write(resp.text)
-        f2.close()
+        # f2 = open('data/json-raw','w')
+        # f2.write(resp.text)
+        # f2.close()
 
-        assert(isinstance(data, dict))
+        # assert(isinstance(data, dict))
 
         return data
     else:
