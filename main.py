@@ -3,7 +3,7 @@ from streamlit_chat import message
 
 from chains import load_chain, load_topic_chain, call_anthropic_api
 from scrape import get_ads
-from trubrics.integrations.streamlit import FeedbackCollector
+#from trubrics.integrations.streamlit import FeedbackCollector
 
 st.set_page_config(
     page_icon="💬", page_title="Adonais", layout="wide"
@@ -156,11 +156,11 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-collector = FeedbackCollector(
-    component_name="default",
-    email=st.secrets["TRUBRICS_EMAIL"], # Store your Trubrics credentials in st.secrets:
-    password=st.secrets["TRUBRICS_PASSWORD"], # https://blog.streamlit.io/secrets-in-sharing-apps/
-)
+#collector = FeedbackCollector(
+#    component_name="default",
+#    email=st.secrets["TRUBRICS_EMAIL"], # Store your Trubrics credentials in st.secrets:
+#    password=st.secrets["TRUBRICS_PASSWORD"], # https://blog.streamlit.io/secrets-in-sharing-apps/
+#)
 
 with sidebar:
     st.subheader("Sponsored")
