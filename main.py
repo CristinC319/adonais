@@ -118,7 +118,7 @@ if st.session_state["generated"]:
 # [title](link)
 link_format = "[{}]({})"
 
-# st.sidebar.header("Ad1")
+# st.sidebar.header("Sponsored")
 for ad in st.session_state.ads:
     st.sidebar.image(ad["thumbnail"], width=200)
     st.sidebar.write(link_format.format(ad["title"], ad["link"]))
