@@ -1,5 +1,6 @@
 import streamlit as st
 #from streamlit_chat import message
+import xml.etree.ElementTree as ET
 
 from chains import load_chain, load_topic_chain, call_anthropic_api
 from scrape import get_ads
@@ -92,8 +93,10 @@ if submit_button and user_input:
     #output = call_anthropic_api(user_input, st.session_state["history"])
 
     # run topic chain on the query & response
-    topic_results = topic_chain.run({"query": user_input, "response": output})
-    topic_results = topic_results.split(",")
+    XML_topic_results = topic_chain.run({"query": user_input, "response": output}) 
+    root =  ET.fromstring(XML_topic_results)
+    queries = root.findall('query')
+    topic_results = [query.text for query in queries]
 
     # Update chat states
     st.session_state["history"].append((user_input, output))

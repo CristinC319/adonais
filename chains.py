@@ -52,9 +52,16 @@ def load_topic_chain():
 
     post_llm_prompt = """
     
-    Human: <context>You are an assistant to an ad publisher. We want to embed ads into a Claude2 chatbot interface. To get the ads, we will send three that you generate to SerpApi's google search results API then just scrap the ["shopping_results", "recipes_results","related_search_boxes", "organic_results"] of the JSON to get the ["title", "link", "thumbnail"] fields.</context>
+    Human: <context>You are an assistant to an ad publisher. We want to embed ads into a Claude2 chatbot interface. To get the ads, we will send three searchable ad queries that you generate to SerpApi's google search results API. Then we will just scrape the ["shopping_results", "recipes_results","related_search_boxes", "organic_results"] of the google search response JSON to get the ["title", "link", "thumbnail"] fields.</context>
     
-    <instructions>Please take the user query inside the <userQuery></userQuery> XML tags, and Claude2's response inside the <LLMResponse></LLMResponse> XML tags, and generate exactly 3 queries inside of XML tags as <query1></query1>, <query2></query2>, <query3></query3>. Please return only the queries inside the XML tags so that I can parse it easily. 
+    <instructions>Please take the user query inside the <userQuery></userQuery> XML tags, and Claude2's response inside the <LLMResponse></LLMResponse> XML tags, and generate no more than three searchable ad queries. Generate queries based on the user's question in userQuery></userQuery> and specific things mentioned in the <LLMResponse></LLMResponse>. Return the queries inside of XML tags as 
+    <adQueries>
+        <query></query>
+        <query></query>
+        <query></query> 
+    </adQueries>
+    
+    Please  act as a XML code outputter. Do not add any additional context or introduction in your response; instead, make sure your entire response is parseable by XML.</instructions>
 
     <userQuery>{query}</userQuery>
 
