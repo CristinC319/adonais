@@ -1,4 +1,5 @@
 import requests
+import random
 
 # GoogleSearch.SERP_API_KEY = "59263e9285646cb5082978e5ec0c18518125436cb81f8e2e37a2855a1ef067f5"
 DESIRED_RESULTS = ["shopping_results", "recipes_results","related_search_boxes", "organic_results"]
@@ -45,13 +46,13 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     # ads = []
     if results:
         for kind in DESIRED_RESULTS: 
-            if kind in results and len(ads) < 3:
+            if kind in results:# and len(ads) < 2:
                 for element in results[kind]:
-                    if isinstance(element, dict) and 'thumbnail' in element and len(ads) < 3:
+                    if isinstance(element, dict) and 'thumbnail' in element:# and len(ads) < 2:
                         ad = {key: element[key] for key in SHOPPING_RESULTS_KEY}
                         if 'price' in element:
                             ad['price'] = element['price']
-                        ad["rating"] = 5 #- len(ads) + .1 * len(ads)
+                        ad["rating"] = 5 - random.random() #- len(ads) + .1 * len(ads)
                         print("scrape_topic got ad")
                         assert(isinstance(ad, dict))
                         # ads.append(ad)
