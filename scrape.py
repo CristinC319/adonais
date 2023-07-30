@@ -1,7 +1,6 @@
 import requests
 import random
 
-# GoogleSearch.SERP_API_KEY = "59263e9285646cb5082978e5ec0c18518125436cb81f8e2e37a2855a1ef067f5"
 DESIRED_RESULTS = ["shopping_results", "recipes_results","related_search_boxes", "organic_results"]
 SHOPPING_RESULTS_KEY = ["title", "link", "thumbnail"]
 
@@ -16,8 +15,6 @@ def search_direct_request(params):
         print("serp direct request failed with", resp.status_code)
         return None
 
-
-
 def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"):
     '''
     input: topic (one word typically, but could be any search query)
@@ -27,41 +24,31 @@ def scrape_topic(topic="Things to do in San Francisco", location="San Francisco"
     uses SERP API: https://serpapi.com/search-api
     '''
     params = {
-            "api_key": "59263e9285646cb5082978e5ec0c18518125436cb81f8e2e37a2855a1ef067f5",                 # https://serpapi.com/manage-api-key
-            "engine": "google",               # search engine
-            # "q": "buy rtx 3080",              # search query 
-            "gl": "us",                       # country to search from
-            "hl": "en",                        # language
+            "api_key": "key", # https://serpapi.com/manage-api-key
+            "engine": "google",
+            "gl": "us",
+            "hl": "en",
             "location": location,
             "safe": "active",
             "num": 5
         }
 
     params["q"] = topic
-
-    # search = GoogleSearch(params)         # where data extraction happens
     results = search_direct_request(params)
-    # print(results)
-    # results = search.get_dict()           # JSON -> Python dict
-    # ads = []
     if results:
         for kind in DESIRED_RESULTS: 
-            if kind in results:# and len(ads) < 2:
+            if kind in results: # and len(ads) < 2:
                 for element in results[kind]:
-                    if isinstance(element, dict) and 'thumbnail' in element:# and len(ads) < 2:
+                    if isinstance(element, dict) and 'thumbnail' in element: # and len(ads) < 2:
                         ad = {key: element[key] for key in SHOPPING_RESULTS_KEY}
                         if 'price' in element:
                             ad['price'] = element['price']
                         ad["rating"] = 5 - random.random() #- len(ads) + .1 * len(ads)
                         print("scrape_topic got ad")
                         assert(isinstance(ad, dict))
-                        # ads.append(ad)
                         return ad
     else:
         return None
-
-    # return ads
-
 
 def get_ads(topic_list):
     '''
@@ -74,11 +61,3 @@ def get_ads(topic_list):
         if ad:
             ads.append(ad)
     return ads[:2]
-
-
-# for x in scrape_topic():
-#     print(x)
-# for x in scrape_topic("coffee"):
-#     print(x)
-
-

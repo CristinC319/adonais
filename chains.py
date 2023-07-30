@@ -3,44 +3,6 @@ from langchain.chains import ConversationChain
 from langchain.chat_models import ChatOpenAI
 from langchain import OpenAI, LLMChain, PromptTemplate
 from langchain.chat_models import ChatAnthropic
-import os
-import http.client
-import json
-import re
-
-def call_anthropic_api(user_input, history):
-    conn = http.client.HTTPSConnection("api.anthropic.com")
-    payload = json.dumps({
-        "prompt": str(history)+"\n\nHuman:"+str(user_input)+"\n\nAssistant:",
-        # this is the param that is used to set the response tokens
-        "max_tokens_to_sample": 10000,
-        "model": "claude-2"
-    })
-    headers = {
-        'accept': 'application/json',
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'x-api-key': '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'
-    }
-    conn.request("POST", "/v1/complete", payload, headers)
-    res = conn.getresponse()
-    data = res.read()
-    data = data.decode("utf-8") 
-
-    print(data)
-
-    regex_pattern = r'"completion":"([^"]+)"'
-
-    # Find the match using the regex pattern
-    match = re.search(regex_pattern, data)
-
-    if match:
-        completion_portion = match.group(1)
-        print(type(completion_portion))
-
-    return str(completion_portion)
-
-#print(call_anthropic_api("Best coffee shops in san francisco?", ""))
 
 def load_chain():
     llm = ChatAnthropic(max_tokens_to_sample=10000)
@@ -75,9 +37,4 @@ def load_topic_chain():
     topic_chain = LLMChain(llm=chat_llm, prompt=post_llm_prompttemplate)
 
     return topic_chain
-
-#topic_chain = load_topic_chain()
-#res = topic_chain.run({'query': 'Im traveling to san francisco and I need a daily itinerary', 'response': "restaurants, musuems"})
-#res_list = res.split(',')
-#print(res_list)
 
